@@ -1,5 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="primaryColor">#FEDBD0</color>
+    <color name="primaryDarkColor">#442C2E</color>
+    <color name="accentColor">#FEEAE6</color>
+    <color name="textColorPrimary">#212121</color>
+    <color name="textColorSecondary">#757575</color>
+    <color name="green">#4CAF50</color>
+    <color name="red">#F44336</color>
+    <color name="white">#FFFFFF</color>
+    <color name="backgroundColor">#FFFFFF</color>
+    <color name="shadowColor">#E0E0E0</color>
+    <color name="buttonBackground">#6200EE</color>
+    <color name="buttonText">#FFFFFF</color>
+    <color name="editTextBackground">#E0E0E0</color>
+    <color name="statusBarColor">#CCFEDBD0</color>
+    <color name="linkColor">#FF7043</color>
+
 </resources>
+
+
+
+
+
