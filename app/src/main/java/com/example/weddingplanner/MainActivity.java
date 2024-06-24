@@ -2,9 +2,13 @@ package com.example.weddingplanner;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -21,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mUsersDatabase;
 
+    //
+    Button btnSignOut;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +38,16 @@ public class MainActivity extends AppCompatActivity {
 
         checkUser();
 
+        btnSignOut = findViewById(R.id.btnSignOut);
+
+
+        btnSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+            }
+        });
+
     }
 
 
@@ -38,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() == null){
-                    Log.d(TAG,"user not sign");
+                    Toast.makeText(MainActivity.this, "user not sign", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this, SignInActivity.class);
                     startActivity(intent);
                     finish();
@@ -48,10 +66,13 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }else {
-                        Log.d(TAG,"user signed");
+                        Toast.makeText(MainActivity.this, "user signed", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
     }
+
+
+
 }
