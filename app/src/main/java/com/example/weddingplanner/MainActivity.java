@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
         EventAdapter adapter = new EventAdapter(this, events);
         listView.setAdapter(adapter);
-        // Assuming you have the current user ID stored in a variable
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         mEventsDatabase.addValueEventListener(new ValueEventListener() {
