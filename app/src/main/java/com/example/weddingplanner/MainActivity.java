@@ -22,8 +22,14 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private DatabaseReference mEventsDatabase, mManagersDatabase;
@@ -36,9 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Event Planner");
-        setSupportActionBar(toolbar);
+
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -82,11 +86,11 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
 //        List<Manager> managers = new ArrayList<>();
-//        managers.add(new Manager("Benjamin Martinez", "$1000 - $2000", "4.5", "A wine tasting event at the Vineyard Estate, sampling wines from local vineyards."));
-//        managers.add(new Manager("Charlotte Lee", "$1500 - $2500", "4.8", "A historical tour of the Mansion Gardens, exploring the architecture and history of the estate."));
-//        managers.add(new Manager("Henry Young", "$1200 - $2200", "4.2", "A fishing derby at the Lakeside Lodge, competing for prizes and enjoying the outdoors."));
-//        managers.add(new Manager("Grace Brown", "$800 - $1500", "4.6", "A picnic at the Park Pavilion, enjoying food and games in a scenic park setting."));
-//        managers.add(new Manager("Andrew Taylor", "$2000 - $3000", "4.9", "A community concert at Chapel Hill, featuring local musicians and performers."));
+//        managers.add(new Manager("Santhos", "$1000 - $2000", "4.5", "A wine tasting event at the Vineyard Estate, sampling wines from local vineyards."));
+//        managers.add(new Manager("Subash", "$1500 - $2500", "4.8", "A historical tour of the Mansion Gardens, exploring the architecture and history of the estate."));
+//        managers.add(new Manager("Suhas", "$1200 - $2200", "4.2", "A fishing derby at the Lakeside Lodge, competing for prizes and enjoying the outdoors."));
+//        managers.add(new Manager("Muththu", "$800 - $1500", "4.6", "A picnic at the Park Pavilion, enjoying food and games in a scenic park setting."));
+//        managers.add(new Manager("Sarma", "$2000 - $3000", "4.9", "A community concert at Chapel Hill, featuring local musicians and performers."));
 //
 //        for (Manager manager : managers) {
 //            String managerId = mManagersDatabase.push().getKey();
@@ -94,9 +98,10 @@ public class MainActivity extends AppCompatActivity {
 //            mManagersDatabase.child(managerId).setValue(manager);
 //        }
 
-
-        EventAdapter adapter = new EventAdapter(this, events);
-        listView.setAdapter(adapter);
+            EventAdapter adapter = new EventAdapter(this, events);
+            listView.setAdapter(adapter);
+//        EventAdapter adapter = new EventAdapter(this, events);
+//        listView.setAdapter(adapter);
         // Assuming you have the current user ID stored in a variable
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -130,26 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_profile:
-                profile();
-                return true;
-            case R.id.menu_sign_out:
-                signOut();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
     private void checkUser() {
         mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
@@ -171,10 +157,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    public void signOut(){
-        Intent intent = new Intent(MainActivity.this, SignOutActivity.class);
-        startActivity(intent);
-    }
+
     public void profile(){
         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
         startActivity(intent);
