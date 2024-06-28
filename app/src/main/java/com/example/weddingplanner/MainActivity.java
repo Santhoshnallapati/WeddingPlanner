@@ -85,18 +85,18 @@ public class MainActivity extends AppCompatActivity {
 //            mEventsDatabase.child(eventId).setValue(event);
 //        }
 
-//        List<Manager> managers = new ArrayList<>();
-//        managers.add(new Manager("Santhos", "$1000 - $2000", "4.5", "A wine tasting event at the Vineyard Estate, sampling wines from local vineyards."));
-//        managers.add(new Manager("Subash", "$1500 - $2500", "4.8", "A historical tour of the Mansion Gardens, exploring the architecture and history of the estate."));
-//        managers.add(new Manager("Suhas", "$1200 - $2200", "4.2", "A fishing derby at the Lakeside Lodge, competing for prizes and enjoying the outdoors."));
-//        managers.add(new Manager("Muththu", "$800 - $1500", "4.6", "A picnic at the Park Pavilion, enjoying food and games in a scenic park setting."));
-//        managers.add(new Manager("Sarma", "$2000 - $3000", "4.9", "A community concert at Chapel Hill, featuring local musicians and performers."));
-//
-//        for (Manager manager : managers) {
-//            String managerId = mManagersDatabase.push().getKey();
-//            manager.setId(managerId);
-//            mManagersDatabase.child(managerId).setValue(manager);
-//        }
+        List<Manager> managers = new ArrayList<>();
+        managers.add(new Manager("Santhos", "$1000 - $2000", "4.5", "A wine tasting event at the Vineyard Estate, sampling wines from local vineyards."));
+        managers.add(new Manager("Subash", "$1500 - $2500", "4.8", "A historical tour of the Mansion Gardens, exploring the architecture and history of the estate."));
+        managers.add(new Manager("Suhas", "$1200 - $2200", "4.2", "A fishing derby at the Lakeside Lodge, competing for prizes and enjoying the outdoors."));
+        managers.add(new Manager("Muththu", "$800 - $1500", "4.6", "A picnic at the Park Pavilion, enjoying food and games in a scenic park setting."));
+        managers.add(new Manager("Sarma", "$2000 - $3000", "4.9", "A community concert at Chapel Hill, featuring local musicians and performers."));
+
+        for (Manager manager : managers) {
+            String managerId = mManagersDatabase.push().getKey();
+            manager.setId(managerId);
+            mManagersDatabase.child(managerId).setValue(manager);
+        }
 
             EventAdapter adapter = new EventAdapter(this, events);
             listView.setAdapter(adapter);
