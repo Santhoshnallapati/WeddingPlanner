@@ -20,7 +20,6 @@ public class AdminActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_admin);
         mAuth = FirebaseAuth.getInstance();
 
@@ -30,6 +29,7 @@ public class AdminActivity extends AppCompatActivity {
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 mAuth.signOut();
             }
         });
