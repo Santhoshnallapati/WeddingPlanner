@@ -46,7 +46,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                 mAuth.sendPasswordResetEmail(email)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                tvMessage.setText("Password reset email sent.");
+                                tvMessage.setText("Password reset email sent to your email");
                                 tvMessage.setVisibility(View.VISIBLE);
                             } else {
                                 tvMessage.setText("Error sending password reset email.");
