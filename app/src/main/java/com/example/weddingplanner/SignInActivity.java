@@ -46,23 +46,38 @@ public class SignInActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
-                if(email.isEmpty() || password.isEmpty()){
-                    Toast.makeText(SignInActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-                }else{
-                    mAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            Toast.makeText(SignInActivity.this, "Sign in success", Toast.LENGTH_SHORT).show();
-                            goHome(email);
+                if(!email.isEmpty()){
+                    if (!password.isEmpty()){
+                        if(password.length() > 5){
+                            mAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    Toast.makeText(SignInActivity.this, "Sign in success", Toast.LENGTH_SHORT).show();
+                                    goHome(email);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(SignInActivity.this, "Sign in failed try again"+ e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }else {
+                            editTextPassword.setError("6 characters need");
+                            editTextPassword.requestFocus();
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(SignInActivity.this, "Sign in failed try again", Toast.LENGTH_SHORT).show();
-                        }
-                    });
 
+
+                    }else {
+                        editTextPassword.setError("Password can't be empty");
+                        editTextPassword.requestFocus();
+                    }
+
+
+                }else{
+                    editTextEmail.setError("Email can't be empty");
+                    editTextEmail.requestFocus();
                 }
+
 
             }
         });
