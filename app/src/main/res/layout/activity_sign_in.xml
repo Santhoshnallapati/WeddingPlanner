@@ -33,6 +33,15 @@
         android:layout_height="wrap_content"
         android:hint="Password"
         android:inputType="textPassword"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/tvForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forgot Password?"
+        android:textColor="@color/primaryDarkColor"
+        android:layout_gravity="end"
         android:layout_marginBottom="24dp" />
 
     <Button
@@ -44,8 +53,6 @@
         android:backgroundTint="@color/primaryDarkColor"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp" />
-
-
 
     <TextView
         android:id="@+id/tvNoAccount"

@@ -5,14 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,6 +22,7 @@ public class SignInActivity extends AppCompatActivity {
 
     EditText editTextEmail, editTextPassword;
     Button btn_signIn, btn_register;
+    TextView tv_forgotPassword;
     private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
 
@@ -37,6 +36,7 @@ public class SignInActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.etPassword);
         btn_signIn = findViewById(R.id.btnSignIn);
         btn_register = findViewById(R.id.btnRegister);
+        tv_forgotPassword = findViewById(R.id.tvForgotPassword);
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -46,23 +46,38 @@ public class SignInActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
-                if(email.isEmpty() || password.isEmpty()){
-                    Toast.makeText(SignInActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-                }else{
-                    mAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            Toast.makeText(SignInActivity.this, "Sign in success", Toast.LENGTH_SHORT).show();
-                            goHome(email);
+                if(!email.isEmpty()){
+                    if (!password.isEmpty()){
+                        if(password.length() > 5){
+                            mAuth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    Toast.makeText(SignInActivity.this, "Sign in success", Toast.LENGTH_SHORT).show();
+                                    goHome(email);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(SignInActivity.this, "Sign in failed try again"+ e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }else {
+                            editTextPassword.setError("6 characters need");
+                            editTextPassword.requestFocus();
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(SignInActivity.this, "Sign in failed try again", Toast.LENGTH_SHORT).show();
-                        }
-                    });
 
+
+                    }else {
+                        editTextPassword.setError("Password can't be empty");
+                        editTextPassword.requestFocus();
+                    }
+
+
+                }else{
+                    editTextEmail.setError("Email can't be empty");
+                    editTextEmail.requestFocus();
                 }
+
 
             }
         });
@@ -74,21 +89,24 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        tv_forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SignInActivity.this, ForgetPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
     public void goHome(String email){
         Intent intent;
         if (email.equals("admin@gmail.com")) {
             intent = new Intent(SignInActivity.this, AdminActivity.class);
-
         }else {
             intent = new Intent(SignInActivity.this, MainActivity.class);
-
         }
-
         startActivity(intent);
         finish();
-
-
-
     }
 }

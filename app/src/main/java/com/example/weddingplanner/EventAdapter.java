@@ -84,9 +84,9 @@ public class EventAdapter extends BaseAdapter {
         btnView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(context, EventDetailsActivity.class);
-//                intent.putExtra("eventId", event.getId());
-//                context.startActivity(intent);
+                Intent intent = new Intent(context, EventDetailsActivity.class);
+                intent.putExtra("eventId", event.getId());
+                context.startActivity(intent);
             }
         });
 
