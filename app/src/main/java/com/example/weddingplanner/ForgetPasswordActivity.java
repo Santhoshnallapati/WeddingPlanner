@@ -37,22 +37,21 @@ public class ForgetPasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = etEmail.getText().toString().trim();
-
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(ForgetPasswordActivity.this, "Please enter your email", Toast.LENGTH_SHORT).show();
-                    return;
+                if(!email.isEmpty()){
+                    mAuth.sendPasswordResetEmail(email)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    tvMessage.setText("Password reset email sent to your email");
+                                    tvMessage.setVisibility(View.VISIBLE);
+                                } else {
+                                    tvMessage.setText("Error sending password reset email.");
+                                    tvMessage.setVisibility(View.VISIBLE);
+                                }
+                            });
+                }else {
+                    etEmail.setError("Email can't be empty");
+                    etEmail.requestFocus();
                 }
-
-                mAuth.sendPasswordResetEmail(email)
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                tvMessage.setText("Password reset email sent to your email");
-                                tvMessage.setVisibility(View.VISIBLE);
-                            } else {
-                                tvMessage.setText("Error sending password reset email.");
-                                tvMessage.setVisibility(View.VISIBLE);
-                            }
-                        });
             }
         });
 
