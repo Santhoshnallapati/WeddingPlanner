@@ -175,24 +175,55 @@ public class AddEditEventActivity extends AppCompatActivity {
         String description = etDescription.getText().toString().trim();
         String budget = etBudgetRange.getText().toString().trim();
 
-        if (date.isEmpty() || time.isEmpty() || place.isEmpty() || description.isEmpty() || budget.isEmpty() || customerId.isEmpty() || managerId.isEmpty()) {
-            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
+
+        if(!customerId.isEmpty()){
+            if(!date.isEmpty()){
+                if(!time.isEmpty()){
+                    if(!place.isEmpty()){
+                        if(!managerId.isEmpty()){
+                            if(!budget.isEmpty()){
+                                if (eventId == null) {
+                                    // Add new event
+                                    String id = mDatabase.push().getKey();
+                                    Event event = new Event(id, customerId, managerId, date, time, place, description, budget);
+                                    if (id != null) {
+                                        mDatabase.child(id).setValue(event);
+                                        finish();
+                                    }
+                                } else {
+                                    // Update existing event
+                                    Event event = new Event(eventId, customerId, managerId, date, time, place, description, budget);
+                                    mDatabase.child(eventId).setValue(event);
+                                    finish();
+                                }
+                            }else {
+                                etBudgetRange.setError("Budget Range can't be empty");
+                                etBudgetRange.requestFocus();
+                            }
+                        }else {
+                            Toast.makeText(this, "Manager name can't be empty", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }else {
+                        etPlace.setError("Place can't be empty");
+                        etPlace.requestFocus();
+                    }
+                }else {
+                    etTime.setError("Time can't be empty");
+                    etTime.requestFocus();
+                }
+
+            }else {
+                etDate.setError("Date can't be empty");
+                etDate.requestFocus();
+            }
+        }else {
+            Toast.makeText(this, "Customer name can't be empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (eventId == null) {
-            // Add new event
-            String id = mDatabase.push().getKey();
-            Event event = new Event(id, customerId, managerId, date, time, place, description, budget);
-            if (id != null) {
-                mDatabase.child(id).setValue(event);
-            }
-        } else {
-            // Update existing event
-            Event event = new Event(eventId, customerId, managerId, date, time, place, description, budget);
-            mDatabase.child(eventId).setValue(event);
-        }
 
-        finish();
+
+
     }
 }
