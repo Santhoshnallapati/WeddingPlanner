@@ -56,30 +56,46 @@ public class SignUpActivity extends AppCompatActivity {
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
 
-                if(username.isEmpty() || email.isEmpty() || password.isEmpty()){
-                    Toast.makeText(SignUpActivity.this, "Please fill all the details ", Toast.LENGTH_SHORT).show();
-                } else {
-                   mAuth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                       @Override
-                       public void onSuccess(AuthResult authResult) {
-                           Toast.makeText(SignUpActivity.this, "Sign up success", Toast.LENGTH_SHORT).show();
-                           FirebaseUser user = mAuth.getCurrentUser();
-                           if (user != null) {
-                               // Write user details to Firebase Database
-                               writeUserDetails(user.getUid(), email, username);
-                           }
-                           goHome(email);
-                       }
+                if(!username.isEmpty()){
+                    if(!email.isEmpty()){
+                        if(!password.isEmpty()){
+                            if(password.length() > 5 ){
+                                mAuth.createUserWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                    @Override
+                                    public void onSuccess(AuthResult authResult) {
+                                        Toast.makeText(SignUpActivity.this, "Sign up success", Toast.LENGTH_SHORT).show();
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        if (user != null) {
+                                            writeUserDetails(user.getUid(), email, username);
+                                        }
+                                        goHome(email);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(SignUpActivity.this, "Sign Up failed"+ e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
+                                    }
+                                });
+                            }else {
+                                editTextPassword.setError("6 characters need");
+                                editTextPassword.requestFocus();
+                            }
+                        }else {
+                            editTextPassword.setError("Password name can't be empty");
+                            editTextPassword.requestFocus();
+                        }
 
-                   }).addOnFailureListener(new OnFailureListener() {
-                       @Override
-                       public void onFailure(@NonNull Exception e) {
-                           Toast.makeText(SignUpActivity.this, "Sign Up failed"+ e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    }else {
+                        editTextEmail.setError("Email name can't be empty");
+                        editTextEmail.requestFocus();
+                    }
 
-                       }
-                   });
+                }else {
+                    editTextUsername.setError("User name can't be empty");
+                    editTextUsername.requestFocus();
                 }
+
             }
         });
 
