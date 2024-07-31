@@ -187,6 +187,12 @@ public class AddEditEventActivity extends AppCompatActivity {
             return;
         }
 
+        if(!validateDate(date)){
+            etDate.setError("Invalid date");
+            etDate.requestFocus();
+            return;
+        }
+
         if (eventId == null) {
             // Add new event
             String id = mDatabase.push().getKey();
@@ -201,6 +207,11 @@ public class AddEditEventActivity extends AppCompatActivity {
         }
 
         finish();
+    }
+
+    private boolean validateDate(String date) {
+        String regex = "^(19|20)\\d\\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$";
+        return date.matches(regex);
     }
 
     private boolean validateTime(String time) {
