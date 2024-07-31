@@ -1,4 +1,5 @@
 package com.example.weddingplanner;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,10 +16,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class EventDetailsActivity extends AppCompatActivity {
-    private TextView tvCustomerName, tvDate, tvTime, tvPlace, tvDescription, tvEventManager, tvBudgetRange;
+    private TextView tvCustomerName, tvDate, tvTime, tvPlace, tvDescription, tvEventManager, tvBudgetRange, tvPaymentStatus;
     private DatabaseReference mDatabase, mManagersDatabase, mUsersDatabase;
     private String eventId, managerId, customerId;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +34,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         tvDescription = findViewById(R.id.tvDescription);
         tvEventManager = findViewById(R.id.tvEventManager);
         tvBudgetRange = findViewById(R.id.tvBudgetRange);
+        tvPaymentStatus = findViewById(R.id.tvPaymentStatus);
         Button btnBack = findViewById(R.id.btnBack);
 
         // Initialize Firebase Database references
@@ -54,6 +57,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                         tvPlace.setText(event.getPlace());
                         tvDescription.setText(event.getDescription());
                         tvBudgetRange.setText(event.getBudgetRange());
+                        tvPaymentStatus.setText(event.getPaymentStatus());
 
                         // Retrieve the event manager's ID
                         managerId = event.getManagerId();

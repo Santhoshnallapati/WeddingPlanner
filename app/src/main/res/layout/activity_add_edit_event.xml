@@ -125,7 +125,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Estimated Budget:"
+                android:text="Estimated Budget($):"
                 android:textSize="18sp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp" />
@@ -158,6 +158,27 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:hint="Description" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment Status:"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/tvPaymentStatus"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="Not Completed" />
         </LinearLayout>
 
         <LinearLayout

@@ -10,11 +10,12 @@ public class Event {
     private String managerId;
     private String customerId;
     private String budgetRange;
+    private  String paymentStatus;
 
     public Event(){
 
     }
-    public Event(String id, String customerId, String managerId, String date, String time, String place, String description, String budgetRange) {
+    public Event(String id, String customerId, String managerId, String date, String time, String place, String description, String budgetRange, String paymentStatus) {
         this.id = id;
         this.customerId = customerId;
         this.managerId = managerId;
@@ -23,6 +24,7 @@ public class Event {
         this.place = place;
         this.description = description;
         this.budgetRange = budgetRange;
+        this.paymentStatus = paymentStatus;
     }
 
     public String getId() {
@@ -55,6 +57,8 @@ public class Event {
         this.managerId = managerId;
     }
     public String getBudgetRange() {return budgetRange;}
+    public String getPaymentStatus() {return paymentStatus;}
+    public void setPaymentStatus(String paymentStatus) {this.paymentStatus = paymentStatus;}
     public String getCustomerId() {
         return customerId;
     }

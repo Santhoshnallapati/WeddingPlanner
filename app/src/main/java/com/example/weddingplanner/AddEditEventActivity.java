@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +25,8 @@ import java.util.List;
 public class AddEditEventActivity extends AppCompatActivity {
     private Spinner spinnerCustomerName, spinnerEventManager;
     private EditText etDate, etTime, etPlace, etDescription, etBudgetRange;
+    private TextView tvPaymentStatus;
+    private  String PaymentStatus_value;
     private Button btnSave, btnBack;
     private DatabaseReference mDatabase, mManagersDatabase, mUsersDatabase;
     private String eventId;
@@ -45,6 +48,7 @@ public class AddEditEventActivity extends AppCompatActivity {
         etPlace = findViewById(R.id.etPlace);
         etDescription = findViewById(R.id.etDescription);
         etBudgetRange = findViewById(R.id.etBudgetRange);
+        tvPaymentStatus = findViewById(R.id.tvPaymentStatus);
         btnSave = findViewById(R.id.btnSave);
         btnBack = findViewById(R.id.btnBack);
 
@@ -138,6 +142,8 @@ public class AddEditEventActivity extends AppCompatActivity {
                     etPlace.setText(event.getPlace());
                     etDescription.setText(event.getDescription());
                     etBudgetRange.setText(event.getBudgetRange());
+                    tvPaymentStatus.setText(event.getPaymentStatus());
+                    PaymentStatus_value = event.getPaymentStatus();
 
                     // Set the customer in the spinner
                     for (int i = 0; i < usersList.size(); i++) {
@@ -175,6 +181,7 @@ public class AddEditEventActivity extends AppCompatActivity {
         String description = etDescription.getText().toString().trim();
         String budget = etBudgetRange.getText().toString().trim();
 
+
         if (date.isEmpty() || time.isEmpty() || place.isEmpty() || description.isEmpty() || budget.isEmpty() || customerId.isEmpty() || managerId.isEmpty()) {
             Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();
             return;
@@ -200,13 +207,13 @@ public class AddEditEventActivity extends AppCompatActivity {
         if (eventId == null) {
             // Add new event
             String id = mDatabase.push().getKey();
-            Event event = new Event(id, customerId, managerId, date, time, place, description, budget);
+            Event event = new Event(id, customerId, managerId, date, time, place, description, budget,"Not completed");
             if (id != null) {
                 mDatabase.child(id).setValue(event);
             }
         } else {
             // Update existing event
-            Event event = new Event(eventId, customerId, managerId, date, time, place, description, budget);
+            Event event = new Event(eventId, customerId, managerId, date, time, place, description, budget, PaymentStatus_value);
             mDatabase.child(eventId).setValue(event);
         }
 
