@@ -180,7 +180,11 @@ public class AddEditEventActivity extends AppCompatActivity {
             return;
         }
 
-
+        if(!validateBudget(budget)){
+            etBudgetRange.setError("Invalid number");
+            etBudgetRange.requestFocus();
+            return;
+        }
         if(!validateTime(time)){
             etTime.setError("Invalid time");
             etTime.requestFocus();
@@ -207,6 +211,12 @@ public class AddEditEventActivity extends AppCompatActivity {
         }
 
         finish();
+    }
+
+    private boolean validateBudget(String budget) {
+        String regex = "^[1-9]\\d*$";
+        return budget.matches(regex);
+
     }
 
     private boolean validateDate(String date) {
