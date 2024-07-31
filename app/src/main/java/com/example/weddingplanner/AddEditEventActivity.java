@@ -180,6 +180,13 @@ public class AddEditEventActivity extends AppCompatActivity {
             return;
         }
 
+
+        if(!validateTime(time)){
+            etTime.setError("Invalid time");
+            etTime.requestFocus();
+            return;
+        }
+
         if (eventId == null) {
             // Add new event
             String id = mDatabase.push().getKey();
@@ -194,5 +201,10 @@ public class AddEditEventActivity extends AppCompatActivity {
         }
 
         finish();
+    }
+
+    private boolean validateTime(String time) {
+        String regex = "^([01]\\d|2[0-3]):([0-5]\\d)$";
+        return time.matches(regex);
     }
 }
