@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileActivity extends AppCompatActivity {
     private TextView tvUsername, tvEmail;
     private ImageView ivProfilePhoto;
-    private Button btnDeleteAccount, btnBack;
+    private Button btnDeleteAccount,btnEditAccount, btnBack;
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -43,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
         ivProfilePhoto = findViewById(R.id.ivProfilePhoto);
         btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
         btnBack = findViewById(R.id.btnBack);
+        btnEditAccount = findViewById(R.id.btnEditAccount);
         mUsersDatabase = FirebaseDatabase.getInstance().getReference("users");
 
         if (currentUser != null) {
@@ -85,7 +86,19 @@ public class ProfileActivity extends AppCompatActivity {
                 finish();
             }
         });
+        btnEditAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editAccount();
+            }
+        });
     }
+
+    private void editAccount() {
+        Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+        startActivity(intent);
+    }
+
 
     private void deleteAccount() {
         if (currentUser != null) {
