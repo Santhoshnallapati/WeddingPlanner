@@ -57,7 +57,7 @@ public class Event {
         this.managerId = managerId;
     }
     public String getBudgetRange() {return budgetRange;}
-    public String getPaymentStatus() {return paymentStatus;}
+        public String getPaymentStatus() {return paymentStatus;}
     public void setPaymentStatus(String paymentStatus) {this.paymentStatus = paymentStatus;}
     public String getCustomerId() {
         return customerId;

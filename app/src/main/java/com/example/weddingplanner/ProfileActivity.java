@@ -56,7 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
             String customerId = currentUser.getUid();
             if (customerId != null) {
                 // Fetch customer details using customerId
-                mUsersDatabase.child(customerId).addListenerForSingleValueEvent(new ValueEventListener() {
+                mUsersDatabase.child(customerId).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot userSnapshot) {
                         if (userSnapshot.exists()) {

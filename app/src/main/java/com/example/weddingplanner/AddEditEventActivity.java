@@ -4,13 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class AddEditEventActivity extends AppCompatActivity {
@@ -79,6 +84,56 @@ public class AddEditEventActivity extends AppCompatActivity {
         });
 
         btnBack.setOnClickListener(v -> finish());
+
+        etTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the current time
+                final Calendar calendar = Calendar.getInstance();
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        AddEditEventActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                // Format the time and set it to the EditText
+                                String formattedTime = String.format("%02d:%02d", hourOfDay, minute);
+                                etTime.setText(formattedTime);
+                            }
+                        },
+                        hour, minute, true); // Set to true for 24-hour format
+
+                timePickerDialog.show();
+            }
+        });
+        etDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the current date
+                final Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        AddEditEventActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                // Set the selected date to the EditText
+                                etDate.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                            }
+                        },
+                        year, month, day);
+
+                // Set the minimum date to the current date
+                datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
+                datePickerDialog.show();
+            }
+        });
     }
 
     private void loadManagers() {
@@ -115,8 +170,11 @@ public class AddEditEventActivity extends AppCompatActivity {
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     User user = userSnapshot.getValue(User.class);
                     if (user != null) {
-                        customerNames.add(user.getName());
-                        usersList.add(user);
+                        if(!user.getId().equals("eyJwQRDFwiaLQQXzxillIeIuIPG2")){
+                            customerNames.add(user.getName());
+                            usersList.add(user);
+                        }
+
                     }
                 }
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(AddEditEventActivity.this, android.R.layout.simple_spinner_item, customerNames);
@@ -227,7 +285,7 @@ public class AddEditEventActivity extends AppCompatActivity {
     }
 
     private boolean validateDate(String date) {
-        String regex = "^(19|20)\\d\\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$";
+        String regex = "^(19|20)\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\\d|3[01])$";
         return date.matches(regex);
     }
 
