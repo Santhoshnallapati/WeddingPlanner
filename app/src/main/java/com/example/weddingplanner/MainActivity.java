@@ -73,7 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Event event = snapshot.getValue(Event.class);
-                    if (event != null && event.getCustomerId().equals(currentUserId)) {
+
+                    // Check if event and event.getCustomerId() are not null
+                    if (event != null && event.getCustomerId() != null && event.getCustomerId().equals(currentUserId)) {
                         event.setId(snapshot.getKey());
                         events.add(event);
                         eventsFound = true;
@@ -95,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
